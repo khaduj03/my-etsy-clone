@@ -8,8 +8,15 @@ import { Input } from "@/components/ui/input";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FiBell } from "react-icons/fi";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import Link from "next/link";
 import { useState } from "react";
+import Search from "./Search";
+import { AnimatedButton } from "./Animations/AnimatedButton";
 const categories = [
   { name: "Accessories", slug: "accessories" },
   { name: "Art & Collectibles", slug: "art-and-collectibles" },
@@ -29,6 +36,15 @@ const categories = [
   { name: "Toys & Games", slug: "toys-and-games" },
   { name: "Weddings", slug: "weddings" },
 ];
+const headerNavLinksItem = [
+  { name: "Gifts", link: "/gifts-mode" },
+  { name: "Seller Deals", link: "/sales-deals" },
+  { name: "Home Favorites", link: "/home-favorites" },
+  { name: "Fashion Finds", link: "/fashion-favorites" },
+  { name: "Registry", link: "/registry" },
+];
+
+
 
 const icons = [BiHeart, FaGifts, FiBell, BiHelpCircle, BiUser, BiShoppingBag];
 const labels = ["Wishlist","Gifts","Notifications","Help","Profile","Cart",];
@@ -36,41 +52,48 @@ const links = ["/favorites", "/gift-mode", null, null, null, "/cart"];
 
 export default function Header() {
   return (
-    <header className="bg-white grid grid-cols-12 shadow-md px-8 py-2 items-center">
-      {/* Left: Logo + Categories */}
-      <div className="col-span-2 flex items-center justify-between pr-3">
-        <Link href="/">
-          <Logo />
-        </Link>
-        <CategoryDropdown />
-      </div>
+    <header className="bg-white border-b-2 border-e-gray-600 pl-8 pb-2 items-center">
+      <section className="flex justify-between items-center px-6  gap-1 flex-wrap">
+        {/* Left: Logo + Categories */}
+        <div className="flex items-center space-x-3">
+          <Link href="/">
+            <Logo />
+          </Link>
+          <AnimatedButton>
+            <CategoryDropdown />
+          </AnimatedButton>
+        </div>
 
-      {/* Center: Search bar */}
-      <div className="col-span-7 flex justify-center">
-        <form role="search" aria-label="Site search"
-          className="relative w-full mr-10">
-          <Input
-            type="search"
-            name="search"
-            id="search"
-            placeholder="Search for anything"
-            className="pr-12 rounded-full border-2 border-gray-800 focus:border-amber-500 transition duration-300 ease-in-out py-5 pl-6"
-          />
-          <button
-            type="submit"
-            aria-label="Search"
-            className="absolute right-0.5 top-1/3 -translate-y-1/3 bg-orange-500 hover:bg-orange-300 rounded-full w-9 h-9 m-0.5 flex justify-center items-center text-white shadow-md hover:rounded-r-full hover:rounded-l-none transition duration-300 ease-in-out"
-          >
-            <BiSearch size={26} />
-          </button>
-        </form>
-      </div>
+        {/* Center: Search bar */}
+        <div className="flex-1 flex justify-center min-w-[400px] max-w-[700px]">
+          <Search />
+        </div>
 
-      {/* Right: Icons */}
-      <div className="col-span-3 flex items-center justify-between">
-        <IconBar />
-      </div>
+        {/* Right: Icons */}
+        <div className="flex items-center ">
+          <IconBar />
+        </div>
+      </section>
+
+      {/* Navigation links */}
+      <section>
+        <HeaderNavLinks />
+      </section>
     </header>
+  );
+}
+
+export function HeaderNavLinks() {
+  return (
+    <ul className="flex w-full justify-center text-sm font-semibold text-gray-700 items-center space-x-8">
+      {headerNavLinksItem.map((navLink) => (
+        <li key={`NavLink-${navLink.name}`}>
+          <Link href={navLink.link}>
+            <AnimatedButton>{navLink.name}</AnimatedButton>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -78,8 +101,8 @@ function Logo() {
   return (
     <Image
       src="/etsy-logo-svgrepo-com.svg"
-      width={70}
-      height={70}
+      width={80}
+      height={80}
       alt="logo"
       className="object-contain"
       priority
@@ -90,7 +113,7 @@ function CategoryDropdown() {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger
-        className="flex hover:bg-gray-100 p-3 rounded-full items-center space-x-2 cursor-pointer select-none transition-colors duration-300 spin-out"
+        className="flex rounded-full items-center space-x-2 cursor-pointer select-none transition-colors duration-300 spin-out"
         aria-label="Categories"
       >
         <IoMdMenu size={20} />
@@ -125,19 +148,26 @@ function IconBar() {
   };
 
   return (
-    <div className="col-span-3 flex items-center justify-between space-x-4 relative">
+    <div className="flex items-cente relative">
       {icons.map((Icon, i) =>
         links[i] === null ? (
           // Dropdown Icons
           <div key={i} className="relative">
-            <button
-              onClick={() => handleDropdown(i)}
-              aria-label="menu bar"
-              className="hover:text-gray-900 text-black focus:outline-none flex items-center space-x-1"
-            >
-              <Icon size={26} />
-              <IoMdArrowDropdown />
-            </button>
+            <Tooltip>
+              <AnimatedButton>
+                <TooltipTrigger
+                  onClick={() => handleDropdown(i)}
+                  aria-label={labels[i]}
+                  className="hover:text-gray-900 cursor-pointer text-black focus:outline-none flex items-center space-x-0.5"
+                >
+                  <Icon size={26} />
+                  <IoMdArrowDropdown size={20} />
+                </TooltipTrigger>
+              </AnimatedButton>
+              <TooltipContent>
+                <p>{labels[i]}</p>
+              </TooltipContent>
+            </Tooltip>
             {openIndex === i && (
               <div className="absolute top-10 right-0 bg-white shadow-lg p-4 rounded-md w-40 z-50 animate-fade-in">
                 <p className="text-sm text-gray-700">
@@ -149,12 +179,19 @@ function IconBar() {
         ) : (
           // Redirecting Icons
           <Link key={i} href={links[i] || "#"}>
-            <button
-              aria-label={labels[i]}
-              className="hover:text-gray-900 text-black focus:outline-none flex items-center space-x-1"
-            >
-              <Icon size={26} />
-            </button>
+            <Tooltip>
+              <AnimatedButton>
+                <TooltipTrigger
+                  aria-label={labels[i]}
+                  className="hover:text-gray-900 text-black focus:outline-none flex items-center space-x-1"
+                >
+                  <Icon size={26} />
+                </TooltipTrigger>
+              </AnimatedButton>
+              <TooltipContent>
+                <p>{labels[i]}</p>
+              </TooltipContent>
+            </Tooltip>
           </Link>
         )
       )}

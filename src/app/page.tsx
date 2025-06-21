@@ -1,7 +1,8 @@
+import HomePage from '@/components/HomePage'
 import React from 'react'
 
 export default function page() {
   return (
-    <div>my etsy clone </div>
+    <div><HomePage/></div>
   )
 }
