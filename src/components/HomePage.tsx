@@ -1,9 +1,8 @@
-import Image from "next/image";
 import React from "react";
 
 export default function HomePage() {
   return (
-    <div className="grid grid-cols-5 w-full gap-4 p-4">
+    <div className="grid grid-cols-5 w-full gap-4 p-4 container mx-auto">
       {/* Top Section */}
       <section className="col-span-3 bg-red-100 rounded-2xl shadow-md overflow-hidden flex flex-row md:flex-row items-center justify-between p-6">
         {/* Text content */}
@@ -12,7 +11,7 @@ export default function HomePage() {
             Just Made For You!
           </h2>
           <p className="text-gray-600">
-            Custom pieces you won't find elsewhere
+            Custom pieces you {"won't "}find elsewhere
           </p>
           <button className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">
             Personalize Now
