@@ -1,10 +1,7 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Checkbox } from "@/components/ui/checkbox";
-import { PiGoogleCardboardLogo } from "react-icons/pi";
 import { MdClose } from "react-icons/md";
-import { FiFacebook } from "react-icons/fi";
-import { Apple } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";

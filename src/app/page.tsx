@@ -1,12 +1,12 @@
 import Header from '@/components/Header'
-import HomePage from '@/components/HomePage'
+import HomePage from '@/components/Home'
 import React from 'react'
 
 export default function page() {
   return (
-    <div>
+    <div className="bg-peachCream">
       <Header />
-      <HomePage/>
+      <HomePage />
     </div>
-  )
+  );
 }

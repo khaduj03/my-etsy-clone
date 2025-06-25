@@ -126,3 +126,8 @@ body{
     line-height: 18.186px;
     color: rgb(34, 34, 34);
 }
+
+.clip-left-bite {
+  clip-path: path("M100,0 Q0, 200 130, 400 L100, 1000 L1000, 1000 L1000, 0 Z"
+  );
+}
